@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Untuk Ciya...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variabel untuk tema Dark Romantic */
+        :root {
+            --bg-color-1: #2a0845;
+            --bg-color-2: #6441A5;
+            --text-light: #f8f8f8;
+            --accent-pink: #ff758c;
+            --accent-glow: #ff7eb3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, var(--bg-color-1), var(--bg-color-2), #1a0b2e, #4b134f);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container utama khusus mobile-first */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            display: none; /* Disembunyikan sebelum intro diklik */
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Halaman Intro */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #11051c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 999;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .tap-btn {
+            background: linear-gradient(45deg, var(--accent-pink), var(--accent-glow));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(255, 117, 140, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+        }
+
+        /* Teks Typing Effect */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--accent-glow);
+            text-shadow: 0 2px 10px rgba(255, 126, 179, 0.5);
+        }
+
+        .typing-container {
+            min-height: 150px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Galeri Kenangan */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        /* Pertanyaan dan Tombol */
+        .question-box {
+            margin-top: 20px;
+            padding-bottom: 50px;
+        }
+
+        .question-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 60px;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4);
+        }
+
+        .btn-no {
+            background: #ff4b4b;
+            color: white;
+            position: absolute; /* Supaya bisa lari-lari */
+            box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4);
+        }
+
+        /* Floating Hearts Animasi di Background */
+        .heart {
+            position: fixed;
+            top: 100vh;
+            font-size: 1.5rem;
+            animation: floatUp 4s linear forwards;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Kontrol Musik */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 45px; height: 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Halaman Sukses */
+        #success-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 11, 46, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .success-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #96c93d;
+            text-shadow: 0 4px 15px rgba(150, 201, 61, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <h1 style="color: white; margin-bottom: 50px;">Untuk Ciya...</h1>
+        <button class="tap-btn" id="start-btn">Sentuh untuk buka 💌</button>
+    </div>
+
+    <div id="heart-container"></div>
+
+    <button class="music-control" id="music-btn">🎵</button>
+
+    <div class="container" id="main-container">
+        <h1>Maafin Aku...</h1>
+        
+        <div class="typing-container">
+            <span id="typing-text"></span><span style="animation: blink 1s infinite">|</span>
+        </div>
+
+        <p style="margin-bottom: 10px; font-style: italic; font-size: 0.9rem; opacity: 0.8;">Kenangan kita terlalu berharga...</p>
+        <div class="gallery">
+            <img src="fotbar.jpg" alt="Kenangan 1">
+            <img src="fotbar1.jpg" alt="Kenangan 2">
+            <img src="fotbar2.jpg" alt="Kenangan 3">
+            <img src="fotbar3.jpg" alt="Kenangan 4">
+        </div>
+
+        <div class="question-box">
+            <div class="question-text">Jadi, Ciya mau maafin aku kan?</div>
+            <div class="btn-group" id="btn-area">
+                <button class="btn btn-yes" id="btn-yes">Iya, dimaafin ❤️</button>
+                <button class="btn btn-no" id="btn-no">Nggak! 😤</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-screen">
+        <div class="success-title">Makasih Ciya! ❤️</div>
+        <p style="font-size: 1.2rem; margin-top: 20px; font-weight: 300;">Aku janji bakal jadi lebih baik lagi. I love you!</p>
+    </div>
+
+    <audio id="bgm" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- 1. Variabel dan Selektor DOM ---
+        const startBtn = document.getElementById('start-btn');
+        const introScreen = document.getElementById('intro-screen');
+        const mainContainer = document.getElementById('main-container');
+        const typingText = document.getElementById('typing-text');
+        const bgm = document.getElementById('bgm');
+        const musicBtn = document.getElementById('music-btn');
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const btnArea = document.getElementById('btn-area');
+        const successScreen = document.getElementById('success-screen');
+
+        let isMusicPlaying = false;
+
+        // --- 2. Teks untuk Typing Effect (Pesan Emosional) ---
+        const pesan = "ciyaaa, aku tau kamu  sedihh garaa garaa akuu. Aku cuma mau bilang kalau aku nyesel banget. akuu pengeenn kamuu happyy terus dan ga tekanann batinn. Kamu itu hal terbaik di hidupku. Aku minta maaf dari hati yang paling dalam ya...";
+        let textIndex = 0;
+
+        // Fungsi Mengetik
+        function typeWriter() {
+            if (textIndex < pesan.length) {
+                typingText.innerHTML += pesan.charAt(textIndex);
+                textIndex++;
+                setTimeout(typeWriter, 55); // Kecepatan ketik (ms)
+            }
+        }
+
+        // --- 3. Memulai Halaman (Tombol Intro) ---
+        startBtn.addEventListener('click', () => {
+            // Mainkan musik
+            bgm.volume = 0.5;
+            bgm.play().then(() => {
+                isMusicPlaying = true;
+                musicBtn.innerText = '🔊';
+            }).catch(e => console.log("Audio play error", e));
+
+            // Hilangkan intro
+            introScreen.style.opacity = '0';
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                mainContainer.style.display = 'flex'; // Munculkan layar utama
+                
+                // Mulai typing effect setelah halaman muncul
+                setTimeout(typeWriter, 500); 
+            }, 1000); // Tunggu transisi 1 detik
+        });
+
+        // --- 4. Kontrol Musik (Play/Pause) ---
+        musicBtn.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgm.pause();
+                musicBtn.innerText = '🔇';
+            } else {
+                bgm.play();
+                musicBtn.innerText = '🔊';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // --- 5. Animasi Floating Hearts Background ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            // Random Emoji Hati
+            const heartsArr = ['💜', '💖', '✨', '💕', '🌸'];
+            heart.innerText = heartsArr[Math.floor(Math.random() * heartsArr.length)];
+            
+            // Random posisi horizontal
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's'; // 3-6 detik
+
+            document.getElementById('heart-container').appendChild(heart);
+
+            // Hapus elemen setelah selesai animasi
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        // Buat hati setiap 800ms
+        setInterval(createHeart, 800);
+
+        // --- 6. Interaksi Tombol "TIDAK" (Fun & Playful) ---
+        // Funsi untuk memindahkan tombol menjauh (bisa disentuh atau mouse hover)
+        function moveButton(e) {
+            e.preventDefault(); // Mencegah klik di mobile
+
+            // Ambil ukuran layar dan ukuran tombol untuk batas acak
+            const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+            const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            // Ubah posisi jadi fixed supaya bisa bebas lari ke layar mana saja
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+
+        // Trigger untuk Desktop & Mobile
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', moveButton);
+
+        // --- 7. Interaksi Tombol "IYA" (Halaman Bahagia) ---
+        btnYes.addEventListener('click', () => {
+            mainContainer.style.display = 'none';
+            successScreen.style.display = 'flex';
+            
+            // Bikin hujan hati lebih banyak pas bilang Iya
+            for(let i=0; i<30; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        });
+
+    </script>
+</body>
+</html>
